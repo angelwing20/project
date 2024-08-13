@@ -12,18 +12,53 @@
     <title>Register Form</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <style>
         .input-group-text {
             cursor: pointer;
         }
+        .container {
+            margin-top: 50px;
+        }
+        .card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            background-color: #000;
+            color: white;
+        }
+        .btn-primary {
+            background-color: #000;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #333;
+        }
+        .form-control:focus {
+            box-shadow: none;
+            border-color: #000;
+        }
+        .alert-danger {
+            margin-top: 10px;
+        }
+        a {
+            display: block;
+            margin-top: 15px;
+            text-align: center;
+            color: #000;
+        }
+        a:hover {
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
-    <div class="container mt-5">
+    <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header text-center">
                         <h1>Register Form</h1>
                     </div>
                     <div class="card-body">
@@ -33,14 +68,14 @@
                                 <label for="name">Name:</label>
                                 <input type="text" class="form-control" name="name" id="name">
                                 @error('name')
-                                    <div class="alert alert-danger mt-2">{{ $message }}</div>
+                                    <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="form-group">
                                 <label for="email">Email:</label>
                                 <input type="email" class="form-control" name="email" id="email">
                                 @error('email')
-                                    <div class="alert alert-danger mt-2">{{ $message }}</div>
+                                    <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="form-group">
@@ -54,7 +89,7 @@
                                     </div>
                                 </div>
                                 @error('password')
-                                    <div class="alert alert-danger mt-2">{{ $message }}</div>
+                                    <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="form-group">
@@ -63,7 +98,8 @@
                                     <input type="password" class="form-control" name="password_confirmation" id="password_confirmation">
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary">Register</button>
+                            <button type="submit" class="btn btn-primary btn-block">Register</button>
+                            <a href="{{ route('loginpage') }}">Login Account</a>
                         </form>
                     </div>
                 </div>
