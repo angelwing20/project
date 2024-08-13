@@ -11,12 +11,6 @@ use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
-    public function main(){
-        return view('main');
-    }
-    public function registerpage(){
-        return view('register');
-    }
     public function register(Request $request){
         $users=$request->validate([
             'name'=>['required','min:3'],
@@ -26,13 +20,20 @@ class UserController extends Controller
         $users['verify_code']=rand(100000,999999);
         $users['password']=bcrypt($users['password']);
         $user=User::create($users);
-        Mail::to($user->email)->send(new UserMail($user));
         Auth::login($user);
-        return redirect('/verify')->with('message','Register Success!');
+        Mail::to($user->email)->send(new UserMail($user));
+        return redirect()->route('verifypage')->with('message','Register Success!');
     }
 
-    public function loginpage(){
-        return view('login');
+    public function verify(Request $request){
+        $condition=User::where('email','=',Auth::user()->email);
+        $data=$condition->get();
+        if ($data[0]->verify_code==$request['verify_code']) {
+            $condition->update(array('verify_time'=>'1'));
+            return redirect()->route('loginpage');
+        }else{
+            return back()->with('message','Verify Failed!');
+        }
     }
 
     public function login(Request $request){
@@ -40,13 +41,22 @@ class UserController extends Controller
             'email'=>['required','email'],
             'password'=>['required','min:6']
         ]);
-        if (Auth::attemp($users)) {
+        if (Auth::attempt($users)) {
             $request->session()->regenerate();
             if (Auth::user()->verify_time==='1') {
-                return redirect('/main')->with('message','Login Success!');
+                return redirect()->route('main')->with('message','Login Success!');
             }else{
-                return back()->with('Login Failed!');
+                return redirect()->route('verifypage')->with('message','Please verify account!');
             }
+        }else{
+            return redirect()->route('loginpage')->with('message','Wrong Email or Password!');
         }
+    }
+
+    public function logout(Request $request){
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('main')->with('message','Logout Success!');
     }
 }

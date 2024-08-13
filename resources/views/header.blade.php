@@ -4,13 +4,63 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>VegeTable</title>
     <!-- Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .navbar {
+            background-color: #000;
+        }
+        .navbar-light .navbar-brand,
+        .navbar-light .navbar-nav .nav-link {
+            color: #fff;
+        }
+        .navbar-light .navbar-brand:hover,
+        .navbar-light .navbar-nav .nav-link:hover {
+            color: #ddd !important;
+        }
+        .navbar-light .navbar-toggler {
+            border-color: #fff;
+        }
+        .navbar-light .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='2' linecap='round' linejoin='round' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+        .btn-link {
+            color: #fff;
+        }
+        .btn-link:hover {
+            color: #ddd;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            background-color: #000;
+            color: white;
+            text-align: center;
+        }
+        .btn-primary {
+            background-color: #000;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #333;
+        }
+        .form-control:focus {
+            box-shadow: none;
+            border-color: #000;
+        }
+        .alert-danger {
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">VegeTable</a>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="{{ route('main') }}">VegetableSHOP</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -18,7 +68,7 @@
             <ul class="navbar-nav ml-auto">
                 @auth
                     <li class="nav-item">
-                        <span class="nav-link">Welcome {{ auth()->user()->name }}</span>
+                        <span class="nav-link">{{ auth()->user()->name }}</span>
                     </li>
                     <li class="nav-item">
                         <form action="{{ route('logout') }}" method="POST" class="form-inline">

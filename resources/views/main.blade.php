@@ -1,3 +1,8 @@
+@if (session()->has('message'))
+    <script>
+        window.alert("{{ session('message') }}")
+    </script>
+@endif
 @extends('header')
 @section('content')  
 <!DOCTYPE html>

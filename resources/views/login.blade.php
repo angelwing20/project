@@ -9,7 +9,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Register Form</title>
+    <title>Login Form</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- FontAwesome for icons -->
@@ -59,18 +59,11 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header text-center">
-                        <h1>Register Form</h1>
+                        <h1>Login Form</h1>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('register') }}" method="post">
+                        <form action="{{ route('login') }}" method="POST">
                             @csrf
-                            <div class="form-group">
-                                <label for="name">Name:</label>
-                                <input type="text" class="form-control" name="name" id="name" value="{{ old('name') }}">
-                                @error('name')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
                             <div class="form-group">
                                 <label for="email">Email:</label>
                                 <input type="email" class="form-control" name="email" id="email" value="{{ old('email') }}">
@@ -92,14 +85,8 @@
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-                            <div class="form-group">
-                                <label for="password_confirmation">Confirm Password:</label>
-                                <div class="input-group">
-                                    <input type="password" class="form-control" name="password_confirmation" id="password_confirmation">
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-primary btn-block">Register</button>
-                            <a href="{{ route('loginpage') }}">Login Account</a>
+                            <button type="submit" class="btn btn-primary btn-block">Login</button>
+                            <a href="{{ route('registerpage') }}">Register Account</a>
                         </form>
                     </div>
                 </div>
