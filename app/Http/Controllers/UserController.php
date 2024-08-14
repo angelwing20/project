@@ -59,4 +59,8 @@ class UserController extends Controller
         $request->session()->regenerateToken();
         return redirect()->route('main')->with('message','Logout Success!');
     }
+
+    public function add(Request $request){
+        
+    }
 }

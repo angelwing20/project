@@ -9,6 +9,8 @@ Route::controller(ViewController::class)->group(function(){
     Route::get('/registerpage','registerpage')->name('registerpage');
     Route::get('/verifypage','verifypage')->name('verifypage');
     Route::get('/loginpage','loginpage')->name('loginpage');
+    Route::get('/user','user')->name('user');
+    Route::get('/addpage','addpage')->name('addpage');
 });
 
 Route::controller(UserController::class)->group(function(){
@@ -16,4 +18,6 @@ Route::controller(UserController::class)->group(function(){
     Route::post('/verify','verify')->name('verify');  
     Route::post('/login','login')->name('login');
     Route::post('/logout','logout')->name('logout');
+    Route::post('/edituser/{id}','edituser')->name('edituser');
+    Route::post('/add','add')->name('add');
 });

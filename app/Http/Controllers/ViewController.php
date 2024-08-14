@@ -18,4 +18,10 @@ class ViewController extends Controller
     public function loginpage(){
         return view('login');
     }
+    public function user(){
+        return view('user');
+    }
+    public function addpage(){
+        return view('add');
+    }
 }

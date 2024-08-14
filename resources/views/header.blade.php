@@ -56,6 +56,42 @@
         .alert-danger {
             margin-top: 10px;
         }
+
+        /* Custom styles for user name */
+        .navbar .nav-link.user-name {
+            display: flex;
+            align-items: center;
+            color: #fff;
+            font-weight: bold;
+            padding: 8px 15px; /* Adjust padding to match button */
+            border-radius: 5px;
+            background-color: #333;
+            transition: background-color 0.3s, color 0.3s;
+            text-decoration: none; /* Remove underline */
+        }
+        .navbar .nav-link.user-name:hover {
+            background-color: #555;
+            color: #ddd;
+        }
+
+        /* Custom styles for Logout button */
+        .navbar .nav-item .btn-link.logout-btn {
+            color: #fff;
+            background-color: #dc3545; /* Red background for logout */
+            border: none;
+            border-radius: 5px;
+            padding: 8px 15px; /* Match padding of user name link */
+            font-weight: bold;
+            transition: background-color 0.3s, color 0.3s, border 0.3s;
+            text-decoration: none; /* Remove underline */
+        }
+        .navbar .nav-item .btn-link.logout-btn:hover {
+            background-color: #c82333; /* Darker red on hover */
+            color: #fff;
+        }
+        .navbar .nav-item .btn-link.logout-btn:focus {
+            box-shadow: none; /* Remove focus outline */
+        }
     </style>
 </head>
 <body>
@@ -68,12 +104,12 @@
             <ul class="navbar-nav ml-auto">
                 @auth
                     <li class="nav-item">
-                        <span class="nav-link">{{ auth()->user()->name }}</span>
+                        <a href="{{ route('user') }}" class="nav-link user-name">{{ auth()->user()->name }}</a>
                     </li>
                     <li class="nav-item">
                         <form action="{{ route('logout') }}" method="POST" class="form-inline">
                             @csrf
-                            <button type="submit" class="btn btn-link nav-link">Logout</button>
+                            <button type="submit" class="btn btn-link logout-btn">Logout</button>
                         </form>
                     </li>
                 @else

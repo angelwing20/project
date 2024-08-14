@@ -28,6 +28,10 @@
             background-color: #000;
             color: white;
         }
+        .card-body {
+            background: linear-gradient(145deg, #f0f0f0, #ffffff);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
         .btn-primary {
             background-color: #000;
             border: none;
