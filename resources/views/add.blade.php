@@ -71,7 +71,7 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="mass">Mass (kg):</label>
+                                <label for="mass">Mass (Per kg):</label>
                                 <input type="text" class="form-control" name="mass" id="mass" value="{{ old('mass') }}">
                                 @error('mass')
                                     <div class="alert alert-danger mt-2">{{ $message }}</div>

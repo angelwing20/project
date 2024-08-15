@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\UserMail;
 use App\Models\User;
+use App\Models\products;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -60,7 +61,33 @@ class UserController extends Controller
         return redirect()->route('main')->with('message','Logout Success!');
     }
 
+    public function edituser(Request $request,User $id){
+        $edit=$request->validate([
+            'name'=>['required','min:3'],
+            'email'=>['required','email'],
+            'ic_number'=>'nullable',
+            'gender'=>'nullable',
+        ]);
+        if ($request->email !== $id['email']) {
+            $id['verify_code']=rand(100000,999999);
+            $id['verify_time']=Null;
+        }
+        $id->update($edit);
+        Mail::to($request->email)->send(new UserMail($id));
+        return redirect()->route('verifypage')->with('message','Edit Detail Success!');
+    }
+
     public function add(Request $request){
-        
+        $add=$request->validate([
+            'p_name'=>['required','min:3'],
+            'picture'=>'required',
+            'mass'=>['required','min:1'],
+            'price'=>'required'
+        ]);
+        if ($request->hasFile("picture")) {
+            $add['picture']=$request->file("picture")->store("logos","public");
+        }
+        products::create($add);
+        return back()->with('message','Add Product Success!');
     }
 }
