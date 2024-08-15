@@ -73,8 +73,11 @@ class UserController extends Controller
             $id['verify_time']=Null;
         }
         $id->update($edit);
-        Mail::to($request->email)->send(new UserMail($id));
-        return redirect()->route('verifypage')->with('message','Edit Detail Success!');
+        if ($id['verify_time']==Null) {
+            Mail::to($request->email)->send(new UserMail($id));
+            return redirect()->route('verifypage')->with('message','Edit Detail Success!');
+        }
+        return redirect()->route('user')->with('message','Edit Detail Success!');
     }
 
     public function add(Request $request){
