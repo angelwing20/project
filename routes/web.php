@@ -10,6 +10,7 @@ Route::controller(ViewController::class)->group(function(){
     Route::get('/verifypage','verifypage')->name('verifypage');
     Route::get('/loginpage','loginpage')->name('loginpage');
     Route::get('/user','user')->name('user');
+    Route::get('/address','address')->name('address');
     Route::get('/addpage','addpage')->name('addpage');
 });
 

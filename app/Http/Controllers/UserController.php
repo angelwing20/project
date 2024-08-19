@@ -30,6 +30,9 @@ class UserController extends Controller
         $condition=User::where('email','=',Auth::user()->email);
         $data=$condition->get();
         if ($data[0]->verify_code==$request['verify_code']) {
+            if (Auth::user()->verify_time!==Null) {
+                return redirect()->route('main');
+            }
             $condition->update(array('verify_time'=>'1'));
             return redirect()->route('loginpage');
         }else{

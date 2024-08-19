@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\addresses;
 
 use Illuminate\Http\Request;
 
@@ -20,6 +21,11 @@ class ViewController extends Controller
     }
     public function user(){
         return view('user');
+    }
+    public function address(){
+        return view('address',[
+            'data'=>addresses::all()
+        ]);
     }
     public function addpage(){
         return view('add');

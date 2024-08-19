@@ -57,6 +57,14 @@
                     </div>
                 </div>
                 <div class="form-group row">
+                    <label for="gender" class="col-sm-2 col-form-label">Address:</label>
+                    <div class="col-sm-10">
+                        <a href="{{ route('address') }}" class="view-address-link">
+                            <button type="button" class="form-control view-address-button" name="gender" id="gender" readonly>View Address</button>
+                        </a>
+                    </div>
+                </div>
+                <div class="form-group row">
                     <div class="col-sm-10 offset-sm-2">
                         <button type="button" class="btn btn-primary btn-block" id="edit-btn">Edit</button>
                         <button type="submit" class="btn btn-success btn-block d-none" id="success-btn">Success</button>
@@ -125,6 +133,34 @@
     .alert-danger {
         margin-top: 10px;
         border-radius: 5px;
+    }
+    .view-address-link {
+        text-decoration: none; /* 移除链接的下划线 */
+        color: inherit; /* 继承父元素颜色 */
+    }
+
+    .view-address-button {
+        cursor: pointer;
+        border: none;
+        background-color: transparent; /* 使按钮背景透明 */
+        font-family: inherit;
+        font-size: inherit;
+        color: inherit; /* 保持按钮的文字颜色 */
+        transition: background-color 0.3s; /* 添加背景颜色变化的过渡效果 */
+    }
+
+    .view-address-button:hover {
+        text-decoration: none; /* 确保悬停时没有下划线 */
+        background-color: #d0d0d0 !important; /* 悬停时背景变灰色，使用 !important 确保优先级 */
+    }
+
+    /* 额外样式以确保按钮不变色 */
+    .view-address-link,
+    .view-address-link:hover,
+    .view-address-link:focus,
+    .view-address-link:active {
+        color: inherit;
+        text-decoration: none;
     }
 </style>
 
