@@ -11,6 +11,8 @@ Route::controller(ViewController::class)->group(function(){
     Route::get('/loginpage','loginpage')->name('loginpage');
     Route::get('/user','user')->name('user');
     Route::get('/address','address')->name('address');
+    Route::get('/addaddress','addaddress')->name('addaddress');
+    Route::get('/editaddress/{id}','editaddress')->name('editaddress');
     Route::get('/addpage','addpage')->name('addpage');
 });
 
@@ -20,5 +22,8 @@ Route::controller(UserController::class)->group(function(){
     Route::post('/login','login')->name('login');
     Route::post('/logout','logout')->name('logout');
     Route::post('/edituser/{id}','edituser')->name('edituser');
+    Route::post('/addaddress/{id}','addaddress')->name('addaddress');
+    Route::put('/editaddress/{id}','editaddress')->name('editaddress');
+    Route::delete('/deleteaddress/{id}','deleteaddress')->name('deleteaddress');
     Route::post('/add','add')->name('add');
 });

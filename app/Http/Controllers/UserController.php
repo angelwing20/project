@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\UserMail;
 use App\Models\User;
 use App\Models\products;
+use App\Models\addresses;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -81,6 +82,38 @@ class UserController extends Controller
             return redirect()->route('verifypage')->with('message','Edit Detail Success!');
         }
         return redirect()->route('user')->with('message','Edit Detail Success!');
+    }
+
+    public function addaddress(Request $request,User $id){
+        $add=$request->validate([
+            'address1'=>'required',
+            'address2'=>'required',
+            'poscode'=>'required',
+            'city'=>'required',
+            'state'=>'required'
+        ]);
+        $add['user_id']=$id;
+        addresses::create($add);
+        return redirect()->route('address')->with('message','Add Address Success!');
+    }
+
+    public function editaddress(Request $request,addresses $id){
+        $edit=$request->validate([
+            'address1'=>'required',
+            'address2'=>'required',
+            'poscode'=>'required',
+            'city'=>'required',
+            'state'=>'required'
+        ]);
+        $id->update($edit);
+        return redirect()->route('address')->with('message','Edit Address Success!');
+    }
+
+    public function deleteaddress(Request $request,addresses $id){
+        $id->delete();
+        $request->session()->regenerateToken();
+        $request->session()->invalidate();
+        return redirect()->route('address')->with('message','Delete Address Success!');
     }
 
     public function add(Request $request){

@@ -27,6 +27,14 @@ class ViewController extends Controller
             'data'=>addresses::all()
         ]);
     }
+    public function addaddress(){
+        return view('add_address');
+    }
+    public function editaddress($id){
+        return view('edit_address',[
+            'data'=>addresses::find($id)
+        ]);
+    }
     public function addpage(){
         return view('add');
     }
