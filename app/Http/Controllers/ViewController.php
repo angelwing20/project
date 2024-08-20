@@ -9,9 +9,15 @@ use Illuminate\Http\Request;
 class ViewController extends Controller
 {
     public function main(){
-        return view('main',[
-            'data'=>products::all()
+        $data = products::orderBy('created_at', 'desc')->take(6)->get();
+        $data2 = products::orderBy('p_name', 'asc')->get();   
+        return view('main', [
+            'data' => $data,
+            'data2' => $data2
         ]);
+    }
+    public function view_detail(){
+        return view('view_detail');
     }
     public function registerpage(){
         return view('register');

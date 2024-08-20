@@ -6,7 +6,7 @@ use App\Http\Controllers\UserController;
 
 Route::controller(ViewController::class)->group(function(){
     Route::get('/','main')->name('main');
-    Route::get('/view/{id}','view')->name('view');
+    Route::get('/view_detail/{id}','view_detail')->name('view_detail');
     Route::get('/registerpage','registerpage')->name('registerpage');
     Route::get('/verifypage','verifypage')->name('verifypage');
     Route::get('/loginpage','loginpage')->name('loginpage');
