@@ -15,7 +15,7 @@
                 <h1>Address</h1>
                 <a href="{{ route('addaddress') }}" class="btn btn-primary">Add New Address</a>
             </div>
-            <table class="table table-striped">
+            <table class="table table-hover">
                 <thead>
                     <tr>
                         <th>Address</th>
@@ -28,16 +28,13 @@
                     <tr>
                         <td>{{ $item->address1 }}, {{ $item->address2 }}, {{ $item->poscode }}, {{ $item->city }}, {{ $item->state }}</td>
                         <td>
-                            <form action="{{ route('editaddress',$item->id ) }}" method="post">
-                                @csrf
-                                <button type="submit" class="btn btn-warning">Edit</button>
-                            </form>
+                            <a href="{{ route('editaddress',$item->id) }}" class="btn btn-warning">Edit Address</a>
                         </td>
                         <td>
                             <form action="{{ route('deleteaddress',$item->id ) }}" method="post">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Delete</button>
+                                <button type="submit" class="btn btn-danger">Delete Address</button>
                             </form>
                         </td>
                     </tr>
@@ -68,10 +65,14 @@
         font-size: 2.5rem;
         color: #000;
         margin-bottom: 20px;
+        text-align: center;
+        border-bottom: 2px solid #ced4da;
+        padding-bottom: 10px;
     }
     table {
         width: 100%;
         border-collapse: collapse;
+        background-color: #fff;
     }
     th, td {
         padding: 15px;
@@ -84,7 +85,7 @@
         color: #fff;
     }
     tr:hover {
-        background-color: #d0d0d0;
+        background-color: #f2f2f2;
     }
     .btn {
         margin: 5px;
@@ -93,7 +94,8 @@
         background-color: #000;
         border: none;
         border-radius: 5px;
-        padding: 10px;
+        padding: 10px 20px;
+        transition: background-color 0.3s ease;
     }
     .btn-primary:hover {
         background-color: #333;
@@ -102,13 +104,21 @@
         background-color: #ffc107;
         border: none;
         border-radius: 5px;
-        padding: 10px;
+        padding: 10px 20px;
+        transition: background-color 0.3s ease;
+    }
+    .btn-warning:hover {
+        background-color: #e0a800;
     }
     .btn-danger {
         background-color: #dc3545;
         border: none;
         border-radius: 5px;
-        padding: 10px;
+        padding: 10px 20px;
+        transition: background-color 0.3s ease;
+    }
+    .btn-danger:hover {
+        background-color: #c82333;
     }
 </style>
 @endsection

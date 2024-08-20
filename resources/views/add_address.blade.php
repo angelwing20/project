@@ -11,8 +11,8 @@
 <body>
     <div class="container">
         <div class="address-form">
-            <h1 class="text-center mb-4">Add Address</h1>
-            <form action="{{ route('addaddress',auth()->user()->id) }}" method="post">
+            <h1 class="text-center mb-4">Add New Address</h1>
+            <form action="{{ route('addaddress') }}" method="post">
                 @csrf
                 <div class="form-group">
                     <label for="address1">Address 1:</label>
@@ -20,11 +20,11 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-home"></i></span>
                         </div>
-                        <input type="text" class="form-control" name="address1" id="address1" placeholder="Enter address line 1">
-                        @error('address1')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
+                        <input type="text" class="form-control" name="address1" id="address1" value="{{ old('address1') }}" placeholder="Enter address line 1">
                     </div>
+                    @error('address1')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="form-group">
                     <label for="address2">Address 2:</label>
@@ -32,11 +32,11 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-building"></i></span>
                         </div>
-                        <input type="text" class="form-control" name="address2" id="address2" placeholder="Enter address line 2">
-                        @error('address2')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
+                        <input type="text" class="form-control" name="address2" id="address2" value="{{ old('address2') }}" placeholder="Enter address line 2">
                     </div>
+                    @error('address2')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="form-group">
                     <label for="poscode">Poscode:</label>
@@ -44,11 +44,11 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-map-pin"></i></span>
                         </div>
-                        <input type="text" class="form-control" name="poscode" id="poscode" placeholder="Enter postal code">
-                        @error('poscode')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
+                        <input type="text" class="form-control" name="poscode" id="poscode" value="{{ old('poscode') }}" placeholder="Enter postal code">
                     </div>
+                    @error('poscode')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="form-group">
                     <label for="city">City:</label>
@@ -56,11 +56,11 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-city"></i></span>
                         </div>
-                        <input type="text" class="form-control" name="city" id="city" placeholder="Enter city">
-                        @error('city')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
+                        <input type="text" class="form-control" name="city" id="city" value="{{ old('city') }}" placeholder="Enter city">
                     </div>
+                    @error('city')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="form-group">
                     <label for="state">State/Province:</label>
@@ -68,11 +68,11 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-map"></i></span>
                         </div>
-                        <input type="text" class="form-control" name="state" id="state" placeholder="Enter state/province">
-                        @error('state')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
+                        <input type="text" class="form-control" name="state" id="state" value="{{ old('state') }}" placeholder="Enter state/province">
                     </div>
+                    @error('state')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="text-center">
                     <input type="submit" class="btn btn-primary" value="Add Address">

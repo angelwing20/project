@@ -54,7 +54,7 @@
                     <label for="gender" class="col-sm-2 col-form-label">Address:</label>
                     <div class="col-sm-10">
                         <a href="{{ route('address') }}" class="view-address-link">
-                            <button type="button" class="form-control view-address-button" name="gender" id="gender" readonly>View Address</button>
+                            <button type="button" class="form-control view-address-button" name="gender" id="gender" readonly><b>View Address</b></button>
                         </a>
                     </div>
                 </div>

@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 use App\Models\addresses;
+use App\Models\products;
 
 use Illuminate\Http\Request;
 
 class ViewController extends Controller
 {
     public function main(){
-        return view('main');
+        return view('main',[
+            'data'=>products::all()
+        ]);
     }
     public function registerpage(){
         return view('register');

@@ -84,7 +84,7 @@ class UserController extends Controller
         return redirect()->route('user')->with('message','Edit Detail Success!');
     }
 
-    public function addaddress(Request $request,User $id){
+    public function addaddress(Request $request){
         $add=$request->validate([
             'address1'=>'required',
             'address2'=>'required',
@@ -92,7 +92,7 @@ class UserController extends Controller
             'city'=>'required',
             'state'=>'required'
         ]);
-        $add['user_id']=$id;
+        $add['user_id']=Auth::user()->id;
         addresses::create($add);
         return redirect()->route('address')->with('message','Add Address Success!');
     }
@@ -111,9 +111,7 @@ class UserController extends Controller
 
     public function deleteaddress(Request $request,addresses $id){
         $id->delete();
-        $request->session()->regenerateToken();
-        $request->session()->invalidate();
-        return redirect()->route('address')->with('message','Delete Address Success!');
+        return back()->with('message','Delete Address Success!');
     }
 
     public function add(Request $request){

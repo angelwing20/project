@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 
 Route::controller(ViewController::class)->group(function(){
     Route::get('/','main')->name('main');
+    Route::get('/view/{id}','view')->name('view');
     Route::get('/registerpage','registerpage')->name('registerpage');
     Route::get('/verifypage','verifypage')->name('verifypage');
     Route::get('/loginpage','loginpage')->name('loginpage');
@@ -22,8 +23,8 @@ Route::controller(UserController::class)->group(function(){
     Route::post('/login','login')->name('login');
     Route::post('/logout','logout')->name('logout');
     Route::post('/edituser/{id}','edituser')->name('edituser');
-    Route::post('/addaddress/{id}','addaddress')->name('addaddress');
-    Route::put('/editaddress/{id}','editaddress')->name('editaddress');
+    Route::post('/addaddress','addaddress')->name('addaddress');
+    Route::post('/editaddress/{id}','editaddress')->name('editaddress');
     Route::delete('/deleteaddress/{id}','deleteaddress')->name('deleteaddress');
     Route::post('/add','add')->name('add');
 });
