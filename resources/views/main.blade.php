@@ -7,6 +7,7 @@
 @section('content')  
 <head>
     <title>VegetableSHOP</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="container">
@@ -14,38 +15,58 @@
         <div class="latest-products d-flex justify-content-start flex-wrap mb-4">
             @foreach ($data as $product)
             <div class="product-item text-center">
-                <a href="{{ route('view_detail',$product->id) }}">
+                <a href="{{ route('view_detail', $product->id) }}">
                     <img src="{{ asset("storage/".$product->picture) }}" alt="{{ $product->p_name }}" class="product-img">
                     <h5>{{ $product->p_name }}</h5>
-                    <p>{{ $product->mass }}kg</p>
+                    <p>{{ $product->mass }}g</p>
                     <p>RM{{ $product->price }}</p>
                 </a>
+                <form action="{{ route('addcart', $product->id) }}" method="post">
+                    @csrf
+                    <button class="btn btn-cart" type="submit">
+                        <i class="fas fa-cart-plus"></i> Add to Cart
+                    </button>
+                </form>
             </div>
             @endforeach
         </div>
 
-        <form action="">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>Vegetable</th>
-                        <th>Per Mass (kg)</th>
-                        <th>Per Price (RM)</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($data2 as $item)
-                    <tr>
-                        <td><img src="{{ asset("storage/".$item->picture) }}" alt="{{ $item->p_name }}" class="product-img"> {{ $item->p_name }}</td>
-                        <td>{{ $item->mass }}</td>
-                        <td>{{ $item->price }}</td>
-                        <td><a href="{{ route('view_detail',$item->id) }}" class="btn btn-primary">View Detail</a></td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </form>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Vegetable</th>
+                    <th>Per Mass (g)</th>
+                    <th>Per Price (RM)</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($data2 as $item)
+                <tr>
+                    <td>
+                        <img src="{{ asset("storage/".$item->picture) }}" alt="{{ $item->p_name }}" class="product-img"> 
+                            {{ $item->p_name }}
+                    </td>
+                    <td>{{ $item->mass }}</td>
+                    <td>{{ $item->price }}</td>
+                    <td>
+                        <a href="{{ route('view_detail', $item->id) }}" class="btn btn-primary">
+                            <i class="fas fa-eye"></i> View Detail
+                        </a><br>
+                        <form action="{{ route('addcart', $item->id) }}" method="post" style="margin-top: 5px;">
+                            @csrf
+                            <button class="btn btn-cart" type="submit">
+                                <i class="fas fa-cart-plus"></i> Add to Cart
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-center">
+            {{ $data2->links('pagination::bootstrap-4') }}
+        </div>        
     </div>
 </body>
 <style>
@@ -61,7 +82,7 @@
     }
     .product-item {
         width: 150px;
-        height: 175px;
+        height: 225px; /* Increased height to accommodate button */
         border: 1px solid #ced4da;
         border-radius: 5px;
         padding: 10px;
@@ -71,6 +92,7 @@
         flex-direction: column;
         justify-content: space-between;
         align-items: center;
+        position: relative;
     }
     .product-img {
         width: 100%;
@@ -87,12 +109,30 @@
         font-size: 0.8rem;
         color: #666;
     }
+    .btn-cart {
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        padding: 10px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        transition: background-color 0.3s;
+    }
+    .btn-cart i {
+        margin-right: 5px; /* Space between icon and text */
+    }
+    .btn-cart:hover {
+        background-color: #0056b3;
+    }
 
     /* Table Styles */
     table {
         width: 100%;
         border-collapse: collapse;
-        background-color: #fff; /* 白色背景 */
+        background-color: #fff;
     }
     th, td {
         padding: 15px;
@@ -104,16 +144,21 @@
         color: #fff;
     }
     tr {
-        background-color: #fff; /* 白色背景 */
+        background-color: #fff;
     }
     tr:hover {
-        background-color: #d0d0d0; /* 滑过时变成灰色 */
+        background-color: #d0d0d0;
     }
     .btn-primary {
         background-color: #000;
         border: none;
         border-radius: 5px;
         padding: 10px;
+        display: flex;
+        align-items: center;
+    }
+    .btn-primary i {
+        margin-right: 5px;
     }
     .btn-primary:hover {
         background-color: #333;

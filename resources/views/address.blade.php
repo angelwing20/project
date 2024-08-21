@@ -7,13 +7,17 @@
 @section('content')
 <head>
     <title>Address</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="container">
         <div class="table-container">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h1>Address</h1>
-                <a href="{{ route('addaddress') }}" class="btn btn-primary">Add New Address</a>
+                <a href="{{ route('addaddress') }}" class="btn btn-primary">
+                    <i class="fas fa-plus-circle"></i> Add New Address
+                </a>
             </div>
             <table class="table table-hover">
                 <thead>
@@ -28,13 +32,17 @@
                     <tr>
                         <td>{{ $item->address1 }}, {{ $item->address2 }}, {{ $item->poscode }}, {{ $item->city }}, {{ $item->state }}</td>
                         <td>
-                            <a href="{{ route('editaddress',$item->id) }}" class="btn btn-warning">Edit Address</a>
+                            <a href="{{ route('editaddress',$item->id) }}" class="btn btn-warning">
+                                <i class="fas fa-edit"></i> Edit Address
+                            </a>
                         </td>
                         <td>
                             <form action="{{ route('deleteaddress',$item->id ) }}" method="post">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Delete Address</button>
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="fas fa-trash-alt"></i> Delete Address
+                                </button>
                             </form>
                         </td>
                     </tr>

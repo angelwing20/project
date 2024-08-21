@@ -5,6 +5,7 @@ use App\Http\Controllers\ViewController;
 use App\Http\Controllers\UserController;
 
 Route::controller(ViewController::class)->group(function(){
+    Route::get('/cart','cart')->name('cart');
     Route::get('/','main')->name('main');
     Route::get('/view_detail/{id}','view_detail')->name('view_detail');
     Route::get('/registerpage','registerpage')->name('registerpage');
@@ -18,6 +19,7 @@ Route::controller(ViewController::class)->group(function(){
 });
 
 Route::controller(UserController::class)->group(function(){
+    Route::post('/addcart/{id}','addcart')->name('addcart');
     Route::post('/register','register')->name('register');
     Route::post('/verify','verify')->name('verify');  
     Route::post('/login','login')->name('login');

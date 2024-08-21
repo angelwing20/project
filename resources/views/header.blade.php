@@ -84,6 +84,9 @@
             transition: background-color 0.3s, color 0.3s;
             text-decoration: none; /* Remove underline */
         }
+        .navbar .nav-link.user-name i {
+            margin-right: 8px; /* Space between icon and text */
+        }
         .navbar .nav-link.user-name:hover {
             background-color: #555;
             color: #ddd;
@@ -98,12 +101,33 @@
             transition: background-color 0.3s, color 0.3s, border 0.3s;
             text-decoration: none; /* Remove underline */
         }
+        .navbar .btn-link.logout-btn i {
+            margin-right: 8px; /* Space between icon and text */
+        }
         .navbar .btn-link.logout-btn:hover {
             background-color: #c82333; /* Darker red on hover */
             color: #fff;
         }
         .navbar .btn-link.logout-btn:focus {
             box-shadow: none; /* Remove focus outline */
+        }
+        .navbar .nav-item.cart {
+            position: relative;
+            margin-right: 20px; /* 增加购物车与用户名之间的距离 */
+        }
+        .navbar .nav-item.cart .cart-icon {
+            color: #fff;
+            font-size: 1.5rem;
+        }
+        .navbar .nav-item.cart .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -10px;
+            background-color: #dc3545;
+            color: #fff;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 0.75rem;
         }
     </style>
 </head>
@@ -116,13 +140,21 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 @auth
+                    <li class="nav-item cart">
+                        <a href="{{ route('cart') }}" class="nav-link">
+                            <i class="fas fa-cart-arrow-down cart-icon"></i> 
+                            @if(session('cart') && count(session('cart')) > 0)
+                                <span class="cart-badge">{{ count(session('cart')) }}</span>
+                            @endif
+                        </a>
+                    </li>          
                     <li class="nav-item">
-                        <a href="{{ route('user') }}" class="btn nav-link user-name">{{ auth()->user()->name }}</a>
+                        <a href="{{ route('user') }}" class="btn nav-link user-name"><i class="fas fa-user"></i>{{ auth()->user()->name }}</a>
                     </li>
                     <li class="nav-item">
                         <form action="{{ route('logout') }}" method="POST" class="form-inline">
                             @csrf
-                            <button type="submit" class="btn btn-link logout-btn">Logout</button>
+                            <button type="submit" class="btn btn-link logout-btn"><i class="fas fa-sign-out-alt"></i>Logout</button>
                         </form>
                     </li>
                 @else

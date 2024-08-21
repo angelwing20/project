@@ -13,6 +13,10 @@ use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
+    public function addcart(){
+        
+    }
+
     public function register(Request $request){
         $users=$request->validate([
             'name'=>['required','min:3'],
