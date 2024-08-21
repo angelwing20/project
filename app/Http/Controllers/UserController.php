@@ -6,6 +6,7 @@ use App\Mail\UserMail;
 use App\Models\User;
 use App\Models\products;
 use App\Models\addresses;
+use App\Models\carts;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -13,8 +14,25 @@ use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
-    public function addcart(){
-        
+    public function addcart(Request $request, products $id){
+        $cart = carts::where('user_id', Auth::user()->id)->where('product_id', $id->id)->exists();
+        if ($cart) {
+            return redirect()->route('cart')->with('message', 'Already Have In Cart!');
+        }else{
+            carts::create([
+                'user_id' => Auth::user()->id,
+                'product_id' => $id->id,
+                'cart_mass' => $id->mass,
+                'cart_price' => $id->price
+            ]);
+            return back()->with('message', 'Add Cart Success!');
+        }
+    }
+
+    public function deletecart(Request $request,carts $id){
+        $delete=carts::where('id',$id->id);
+        $delete->delete();
+        return back();
     }
 
     public function register(Request $request){
@@ -90,6 +108,7 @@ class UserController extends Controller
 
     public function addaddress(Request $request){
         $add=$request->validate([
+            'description'=>'required',
             'address1'=>'required',
             'address2'=>'required',
             'poscode'=>'required',

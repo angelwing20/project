@@ -14,6 +14,21 @@
             <h1 class="text-center mb-4">Edit Address</h1>
             <form action="{{ route('editaddress',$data->id) }}" method="post">
                 @csrf
+                <!-- Description -->
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-info-circle"></i></span>
+                        </div>
+                        <input type="text" class="form-control" name="description" id="description" value="{{ $data->description }}" placeholder="Enter description">
+                    </div>
+                    @error('description')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <!-- Address 1 -->
                 <div class="form-group">
                     <label for="address1">Address 1:</label>
                     <div class="input-group">
@@ -26,6 +41,8 @@
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
+                
+                <!-- Address 2 -->
                 <div class="form-group">
                     <label for="address2">Address 2:</label>
                     <div class="input-group">
@@ -38,6 +55,8 @@
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
+
+                <!-- Poscode -->
                 <div class="form-group">
                     <label for="poscode">Poscode:</label>
                     <div class="input-group">
@@ -50,6 +69,8 @@
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
+
+                <!-- City -->
                 <div class="form-group">
                     <label for="city">City:</label>
                     <div class="input-group">
@@ -62,6 +83,8 @@
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
+
+                <!-- State/Province -->
                 <div class="form-group">
                     <label for="state">State/Province:</label>
                     <div class="input-group">
@@ -74,6 +97,7 @@
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
+                
                 <div class="text-center">
                     <input type="submit" class="btn btn-primary" value="Edit Address">
                 </div>

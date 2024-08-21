@@ -21,7 +21,7 @@ class ViewController extends Controller
     }
     public function cart(){
         return view('cart',[
-            'data'=>carts::where('user_id',Auth::user()->id)->get()
+            'cart'=>carts::where('user_id',Auth::user()->id)->get()
         ]);
     }
     public function view_detail($id){

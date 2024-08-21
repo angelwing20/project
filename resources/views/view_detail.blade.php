@@ -97,26 +97,23 @@
 
         <div class="form-group">
             <label for="mass">Mass (g):</label>
-            <input type="number" name="mass" id="mass" value="100" min="100" step="50" oninput="updateTotalPrice()">
+            <input type="number" name="mass" id="mass" value="100" min="100" step="50" oninput="updateTotalPrice({{ $data->price }})">
         </div>
 
         <div class="total-price">
             <label for="total-price">Total Price:</label>
-            <p id="total-price">RM{{ number_format($data->price * 100, 2) }}</p>
+            <p id="total-price">RM{{ number_format($data->price, 2) }}</p>
         </div>
 
         <button class="cart-btn">Add To Cart</button>
     </div>
 
     <script>
-        function updateTotalPrice() {
+        function updateTotalPrice(perprice) {
             const massInput = document.getElementById('mass');
-            const totalPriceElement = document.getElementById('total-price');
-            const unitPrice = {{ $data->price }}; // 服务器端传递的单位价格
-
             let mass = parseFloat(massInput.value);
 
-            // Ensure mass is at least 100g and a multiple of 50g
+            // 确保质量至少为 100g 且为 50g 的倍数
             if (isNaN(mass) || mass < 100) {
                 mass = 100;
                 massInput.value = mass;
@@ -125,12 +122,10 @@
                 massInput.value = mass;
             }
 
-            const totalPrice = unitPrice * mass;
-            totalPriceElement.textContent = `RM${totalPrice.toFixed(2)}`;
+            // 计算总价格，将质量转换为千克
+            const totalPrice = perprice * (mass / 100);
+            document.getElementById('total-price').textContent = `RM${totalPrice.toFixed(2)}`;
         }
-
-        // Initialize total price on page load
-        document.addEventListener('DOMContentLoaded', updateTotalPrice);
     </script>
 </body>
 @endsection

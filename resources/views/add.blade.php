@@ -72,7 +72,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="mass">Mass (Per g):</label>
-                                <input type="text" class="form-control" name="mass" id="mass" value="{{ old('mass') }}">
+                                <!-- Adding the min and step attributes as per your requirement -->
+                                <input type="number" class="form-control" name="mass" id="mass" value="{{ old('mass', 100) }}" min="100" step="50" oninput="enforceMassLimit()">
                                 @error('mass')
                                     <div class="alert alert-danger mt-2">{{ $message }}</div>
                                 @enderror
@@ -95,5 +96,23 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function enforceMassLimit() {
+            const massInput = document.getElementById('mass');
+            let mass = parseFloat(massInput.value);
+
+            // Ensure mass is at least 100g and a multiple of 50g
+            if (isNaN(mass) || mass < 100) {
+                mass = 100;
+            } else if (mass % 50 !== 0) {
+                mass = Math.round(mass / 50) * 50;
+            }
+            massInput.value = mass;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            enforceMassLimit();
+        });
+    </script>
 </body>
 </html>

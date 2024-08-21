@@ -20,6 +20,7 @@ Route::controller(ViewController::class)->group(function(){
 
 Route::controller(UserController::class)->group(function(){
     Route::post('/addcart/{id}','addcart')->name('addcart');
+    Route::post('/deletecart/{id}','deletecart')->name('deletecart');
     Route::post('/register','register')->name('register');
     Route::post('/verify','verify')->name('verify');  
     Route::post('/login','login')->name('login');

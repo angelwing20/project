@@ -22,6 +22,7 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
+                        <th>Description</th>
                         <th>Address</th>
                         <th>Edit</th>
                         <th>Delete</th>
@@ -30,6 +31,7 @@
                 <tbody>
                     @foreach ($data as $item)
                     <tr>
+                        <td>{{ $item->description }}</td>
                         <td>{{ $item->address1 }}, {{ $item->address2 }}, {{ $item->poscode }}, {{ $item->city }}, {{ $item->state }}</td>
                         <td>
                             <a href="{{ route('editaddress',$item->id) }}" class="btn btn-warning">

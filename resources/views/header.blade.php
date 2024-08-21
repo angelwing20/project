@@ -143,9 +143,6 @@
                     <li class="nav-item cart">
                         <a href="{{ route('cart') }}" class="nav-link">
                             <i class="fas fa-cart-arrow-down cart-icon"></i> 
-                            @if(session('cart') && count(session('cart')) > 0)
-                                <span class="cart-badge">{{ count(session('cart')) }}</span>
-                            @endif
                         </a>
                     </li>          
                     <li class="nav-item">
