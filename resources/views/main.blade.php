@@ -9,7 +9,7 @@
     <title>VegetableSHOP</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
-<body>
+<body style="background-color: #f8f9fa;">
     <div class="container">
         <h2>New Products</h2>
         <div class="latest-products d-flex justify-content-start flex-wrap mb-4">

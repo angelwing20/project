@@ -8,7 +8,7 @@
 <head>
     <title>User Detail</title>
 </head>
-<body>
+<body style="background-color: #f8f9fa;">
     <div class="container mt-5">
         <div class="user-details">
             <h1 class="text-center mb-4"><i class="fas fa-user-circle"></i> User Detail</h1>

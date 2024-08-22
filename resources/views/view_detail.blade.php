@@ -91,22 +91,26 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <img src="{{ asset("storage/".$data->picture) }}" alt="{{ $data->p_name }}" class="product-img">
-        <p class="product-name">{{ $data->p_name }}</p>
+    <form action="{{ route('addcart_view',$data->id) }}" method="post">
+        @csrf
+        <div class="container">
+            <img src="{{ asset("storage/".$data->picture) }}" alt="{{ $data->p_name }}" class="product-img">
+            <p class="product-name">{{ $data->p_name }}</p>
 
-        <div class="form-group">
-            <label for="mass">Mass (g):</label>
-            <input type="number" name="mass" id="mass" value="100" min="100" step="50" oninput="updateTotalPrice({{ $data->price }})">
+            <div class="form-group">
+                <label for="mass">Mass (g):</label>
+                <input type="number" name="mass" id="mass" value="100" min="100" step="50" oninput="updateTotalPrice({{ $data->price }})">
+            </div>
+
+            <div class="total-price">
+                <label for="total-price">Total Price:</label>
+                <p id="total-price">RM{{ number_format($data->price, 2) }}</p>
+            </div>
+
+            <button type="submit" class="cart-btn">Add To Cart</button>
         </div>
-
-        <div class="total-price">
-            <label for="total-price">Total Price:</label>
-            <p id="total-price">RM{{ number_format($data->price, 2) }}</p>
-        </div>
-
-        <button class="cart-btn">Add To Cart</button>
-    </div>
+    </form>
+    
 
     <script>
         function updateTotalPrice(perprice) {

@@ -28,11 +28,19 @@ class UserController extends Controller
             return back()->with('message', 'Add Cart Success!');
         }
     }
-
-    public function deletecart(Request $request,carts $id){
-        $delete=carts::where('id',$id->id);
-        $delete->delete();
-        return back();
+    public function addcart_view(Request $request,products $id){
+        $cart = carts::where('user_id', Auth::user()->id)->where('product_id', $id->id)->exists();
+        if ($cart) {
+            return back()->with('message', 'Already Have In Cart!');
+        }else{
+            carts::create([
+                'user_id' => Auth::user()->id,
+                'product_id' => $id->id,
+                'cart_mass' => $request->mass,
+                'cart_price' => $id->price
+            ]);
+            return back()->with('message', 'Add Cart Success!');
+        }
     }
 
     public function register(Request $request){
