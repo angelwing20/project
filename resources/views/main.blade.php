@@ -45,7 +45,7 @@
                 @foreach ($data2 as $item)
                 <tr>
                     <td>
-                        <a href="{{ route('view_detail', $product->id) }}">
+                        <a href="{{ route('view_detail', $item->id) }}">
                             <img src="{{ asset("storage/".$item->picture) }}" alt="{{ $item->p_name }}" class="product-img">
                         </a>
                         {{ $item->p_name }}
