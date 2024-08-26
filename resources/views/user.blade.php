@@ -33,18 +33,9 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="ic_number" class="col-sm-2 col-form-label"><i class="fas fa-id-card"></i> IC Number:</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" name="ic_number" id="ic_number" value="{{ auth()->user()->ic_number }}" readonly>
-                        @error('ic_number')
-                            <div class="alert alert-danger mt-2">{{ $message }}</div>
-                        @enderror
-                    </div>
-                </div>
-                <div class="form-group row">
                     <label for="gender" class="col-sm-2 col-form-label"><i class="fas fa-venus-mars"></i> Gender:</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" name="gender" id="gender" value="{{ auth()->user()->gender }}" readonly>
+                        <input type="text" class="form-control" name="gender" id="gender" value="{{ auth()->user()->gender }}" placeholder="Male or Female" readonly>
                         @error('gender')
                             <div class="alert alert-danger mt-2">{{ $message }}</div>
                         @enderror

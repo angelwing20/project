@@ -20,6 +20,7 @@
                     <h5>{{ $product->p_name }}</h5>
                     <p>{{ $product->mass }}g</p>
                     <p>RM{{ $product->price }}</p>
+                    <p>{{ $product->created_at }}</p>
                 </a>
                 <form action="{{ route('addcart', $product->id) }}" method="post">
                     @csrf
@@ -44,8 +45,10 @@
                 @foreach ($data2 as $item)
                 <tr>
                     <td>
-                        <img src="{{ asset("storage/".$item->picture) }}" alt="{{ $item->p_name }}" class="product-img"> 
-                            {{ $item->p_name }}
+                        <a href="{{ route('view_detail', $product->id) }}">
+                            <img src="{{ asset("storage/".$item->picture) }}" alt="{{ $item->p_name }}" class="product-img">
+                        </a>
+                        {{ $item->p_name }}
                     </td>
                     <td>{{ $item->mass }}</td>
                     <td>{{ $item->price }}</td>
@@ -82,7 +85,7 @@
     }
     .product-item {
         width: 150px;
-        height: 225px; /* Increased height to accommodate button */
+        height: 240px; /* Increased height to accommodate button */
         border: 1px solid #ced4da;
         border-radius: 5px;
         padding: 10px;

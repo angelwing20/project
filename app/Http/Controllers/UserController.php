@@ -15,32 +15,40 @@ use Illuminate\Validation\Rule;
 class UserController extends Controller
 {
     public function addcart(Request $request, products $id){
-        $cart = carts::where('user_id', Auth::user()->id)->where('product_id', $id->id)->exists();
-        if ($cart) {
-            return redirect()->route('cart')->with('message', 'Already Have In Cart!');
+        if (Auth::user()!==null) {
+            $cart = carts::where('user_id', Auth::user()->id)->where('product_id', $id->id)->exists();
+            if ($cart) {
+                return redirect()->route('cart')->with('message', 'Already Have In Cart!');
+            }else{
+                carts::create([
+                    'user_id' => Auth::user()->id,
+                    'product_id' => $id->id,
+                    'cart_mass' => $id->mass,
+                    'cart_price' => $id->price
+                ]);
+                return back()->with('message', 'Add Cart Success!');
+            }
         }else{
-            carts::create([
-                'user_id' => Auth::user()->id,
-                'product_id' => $id->id,
-                'cart_mass' => $id->mass,
-                'cart_price' => $id->price
-            ]);
-            return back()->with('message', 'Add Cart Success!');
-        }
+            return redirect()->route('loginpage');
+        } 
     }
     public function addcart_view(Request $request,products $id){
-        $cart = carts::where('user_id', Auth::user()->id)->where('product_id', $id->id)->exists();
-        if ($cart) {
-            return back()->with('message', 'Already Have In Cart!');
+        if (Auth::user()!==null) {
+            $cart = carts::where('user_id', Auth::user()->id)->where('product_id', $id->id)->exists();
+            if ($cart) {
+                return back()->with('message', 'Already Have In Cart!');
+            }else{
+                carts::create([
+                    'user_id' => Auth::user()->id,
+                    'product_id' => $id->id,
+                    'cart_mass' => $request->mass,
+                    'cart_price' => $id->price
+                ]);
+                return back()->with('message', 'Add Cart Success!');
+            }
         }else{
-            carts::create([
-                'user_id' => Auth::user()->id,
-                'product_id' => $id->id,
-                'cart_mass' => $request->mass,
-                'cart_price' => $id->price
-            ]);
-            return back()->with('message', 'Add Cart Success!');
-        }
+            return redirect()->route('loginpage');
+        } 
     }
 
     public function register(Request $request){
@@ -99,8 +107,7 @@ class UserController extends Controller
         $edit=$request->validate([
             'name'=>['required','min:3'],
             'email'=>['required','email'],
-            'ic_number'=>'nullable',
-            'gender'=>'nullable',
+            'gender'=>'nullable'
         ]);
         if ($request->email !== $id['email']) {
             $id['verify_code']=rand(100000,999999);

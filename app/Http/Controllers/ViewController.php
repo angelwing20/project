@@ -50,7 +50,7 @@ class ViewController extends Controller
     }
     public function address(){
         return view('address',[
-            'data'=>addresses::all()
+            'data'=>addresses::where('user_id',Auth::user()->id)->get()
         ]);
     }
     public function addaddress(){
