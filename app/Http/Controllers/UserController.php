@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\OtpMail;
 use App\Mail\UserMail;
 use App\Models\User;
 use App\Models\products;
@@ -94,6 +95,35 @@ class UserController extends Controller
         }else{
             return redirect()->route('loginpage')->with('message','Wrong Email or Password!');
         }
+    }
+
+    public function forgot(Request $request){
+        $forgot=User::where('email',$request->email)->first();
+        if ($forgot) {
+            $forgot['verify_code']=rand(100000,999999);
+            $forgot->update();
+            Mail::to($request->email)->send(new OtpMail($forgot));
+            return redirect()->route('verify_forgot',['email'=>$request->email]);
+        }
+        return redirect()->route('forgotpage')->with('message','No Have Account!');
+    }
+
+    public function verify_forgotpwd(Request $request,$email){
+        $verify=User::where('verify_code',$request->verify_code)->first();
+        if ($verify) {
+            return redirect()->route('forgotpwd',['email'=>$email]);
+        }
+        return back()->with('message','Wrong Verify Code!');
+    }
+
+    public function reset_pwd(Request $request,$email){
+        $condition=User::where('email',$email);
+        $reset=$request->validate([
+            'password'=>'required|confirmed|min:6'
+        ]);
+        $reset['password']=bcrypt($reset['password']);
+        $condition->update($reset);
+        return redirect()->route('loginpage')->with('message','Password Already Change!');
     }
 
     public function logout(Request $request){

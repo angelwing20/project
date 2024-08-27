@@ -51,9 +51,25 @@
             margin-top: 15px;
             text-align: center;
             color: #000;
+            text-decoration: none;
         }
         a:hover {
-            text-decoration: none;
+            text-decoration: underline;
+        }
+        /* Forgot Password link styles */
+        .forgot-password {
+            display: block;
+            text-align: right;
+            margin-top: -10px;
+            margin-bottom: 10px;
+            color: #007bff;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: color 0.2s ease-in-out;
+        }
+        .forgot-password:hover {
+            color: #0056b3;
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -89,9 +105,12 @@
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>
+                            <div>
+                                <a href="{{ route('forgotpage') }}" class="forgot-password">Forgot Password?</a>
+                            </div>
                             <button type="submit" class="btn btn-primary btn-block">Login</button>
-                            <a href="{{ route('registerpage') }}">Register Account</a>
                         </form>
+                        <a href="{{ route('registerpage') }}">Register Account</a>
                     </div>
                 </div>
             </div>

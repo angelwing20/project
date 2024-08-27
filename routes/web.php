@@ -12,6 +12,9 @@ Route::controller(ViewController::class)->group(function(){
     Route::get('/registerpage','registerpage')->name('registerpage');
     Route::get('/verifypage','verifypage')->name('verifypage');
     Route::get('/loginpage','loginpage')->name('loginpage');
+    Route::get('/forgotpage','forgotpage')->name('forgotpage');
+    Route::get('/verify_forgot/{email}','verify_forgot')->name('verify_forgot');
+    Route::get('/forgotpwd/{email}','forgotpwd')->name('forgotpwd');
     Route::get('/user','user')->name('user');
     Route::get('/address','address')->name('address');
     Route::get('/addaddress','addaddress')->name('addaddress');
@@ -25,6 +28,9 @@ Route::controller(UserController::class)->group(function(){
     Route::post('/register','register')->name('register');
     Route::post('/verify','verify')->name('verify');  
     Route::post('/login','login')->name('login');
+    Route::post('/forgot','forgot')->name('forgot');
+    Route::post('/verify_forgotpwd/{email}','verify_forgotpwd')->name('verify_forgotpwd');
+    Route::post('/reset_pwd/{email}','reset_pwd')->name('reset_pwd');
     Route::post('/logout','logout')->name('logout');
     Route::post('/edituser/{id}','edituser')->name('edituser');
     Route::post('/addaddress','addaddress')->name('addaddress');

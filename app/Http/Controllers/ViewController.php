@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\addresses;
 use App\Models\products;
 use App\Models\carts;
+use App\Models\User;
 
 
 use Illuminate\Http\Request;
@@ -44,6 +45,19 @@ class ViewController extends Controller
     }
     public function loginpage(){
         return view('login');
+    }
+    public function forgotpage(){
+        return view('forgot');
+    }
+    public function verify_forgot($email){
+        return view('verify_forgot',[
+            'email'=>User::where('email',$email)->first()
+        ]);
+    }
+    public function forgotpwd($email){
+        return view('forgotpwd',[
+            'email'=>User::where('email',$email)->first()
+        ]);
     }
     public function user(){
         return view('user');
