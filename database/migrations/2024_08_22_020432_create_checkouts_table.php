@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('product_id')->constrained('products','id')->onDelete('cascade');
             $table->string('mass');
+            $table->string('price');
             $table->enum('delivery_type',['pick-up','delivery']);
             $table->string('address');
             $table->enum('status',['on-the-way','success-order']);

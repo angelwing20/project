@@ -25,6 +25,7 @@ Route::controller(ViewController::class)->group(function(){
 Route::controller(UserController::class)->group(function(){
     Route::post('/addcart/{id}','addcart')->name('addcart');
     Route::post('/addcart_view/{id}','addcart_view')->name('addcart_view');
+    Route::post('/checkout','checkout')->name('checkout');
     Route::post('/register','register')->name('register');
     Route::post('/verify','verify')->name('verify');  
     Route::post('/login','login')->name('login');

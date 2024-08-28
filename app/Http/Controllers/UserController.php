@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\products;
 use App\Models\addresses;
 use App\Models\carts;
+use App\Models\checkouts;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -51,6 +52,64 @@ class UserController extends Controller
             return redirect()->route('loginpage');
         } 
     }
+
+    public function checkout(Request $request){
+    
+        // 获取提交的所有商品ID和对应的质量（mass）
+        $product_ids = $request->input('product_id');
+        $masses = $request->input('mass');
+
+        // 验证：确保数组长度一致并且不为空
+        if (count($product_ids) != count($masses)) {
+            return redirect()->back()->with('message', 'Data mismatch!');
+        }
+
+        // 生成唯一的订单代码
+        $order_code = rand(100000, 999999);
+
+        // 验证是否选择了地址（仅在 delivery 情况下）
+        if ($request->delivery_type === 'delivery' && $request->address == null) {
+            return redirect()->route('addaddress')->with('message', 'Please Add A Address To Complete Delivery Order!');
+        }
+
+        // 遍历商品ID和质量数组，插入到数据库中
+        foreach ($product_ids as $index => $product_id) {
+            $mass = $masses[$index];
+
+            // 获取产品的单价
+            $product = products::find($product_id);
+            if (!$product) {
+                return redirect()->back()->with('message', 'Product not found!');
+            }
+
+            // 计算总价
+            $total_price = ($mass / 100) * $product->price;
+
+            // 获取地址，如果选择的是 delivery
+            $address = $request->delivery_type === 'delivery' ? $request->address : '';
+
+            // 创建订单记录
+            checkouts::create([
+                'order_code'   => $order_code,
+                'user_id'      => Auth::user()->id,
+                'product_id'   => $product_id,
+                'mass'         => $mass,
+                'price'        => $product->price,
+                'delivery_type'=> $request->delivery_type,
+                'address'      => $address,
+                'price'        => $total_price,
+                'status'       => 'on-the-way',
+            ]);
+            $cart=carts::where('user_id',Auth::user()->id)->where('product_id',$product_id)->first();
+            if ($cart) {
+                $cart->delete();
+            }
+        } 
+        // 返回成功的视图或重定向
+        return redirect()->route('main')->with('message', 'Order placed successfully!');
+    }
+
+
 
     public function register(Request $request){
         $users=$request->validate([

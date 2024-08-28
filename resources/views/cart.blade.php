@@ -1,8 +1,3 @@
-@if (session()->has('message'))
-    <script>
-        window.alert("{{ session('message') }}")
-    </script>
-@endif
 @extends('header')
 @section('content')
 <head>
@@ -14,65 +9,69 @@
         @if($cart->isEmpty())
             <p class="text-center"><i class="fas fa-exclamation-circle"></i> Your cart is empty!</p>
         @else
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>Vegetable</th>
-                        <th>Mass (g)</th>
-                        <th>Price (RM)</th>
-                        <th>Total Price (RM)</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
+            <form action="{{ route('checkout') }}" method="POST">
+                @csrf
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Vegetable</th>
+                            <th>Mass (g)</th>
+                            <th>Price (RM)</th>
+                            <th>Total Price (RM)</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                     @php $total = 0; @endphp
-                    @foreach ($cart as $item)
-                    <tr>
-                        <td>
-                            <img src="{{ asset("storage/".$item->product->picture) }}" alt="{{ $item->product->p_name }}" class="cart-img">
-                            {{ $item->product->p_name }}
-                        </td>
-                        <td>
-                            <input type="number" name="mass" value="{{ $item->cart_mass }}" min="100" step="50" class="mass-input" data-price="{{ $item->product->price }}">
-                        </td>
-                        <td>{{ number_format($item->product->price, 2) }}</td>
-                        <td class="total-price">{{ number_format($item->cart_price*($item->cart_mass/100), 2) }}</td>
-                        <td>
-                            <a href="{{ route('deletecart',$item->id) }}" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Remove</a>
-                        </td>
-                    </tr>
-                    @php $total += $item->cart_price*($item->cart_mass/100); @endphp
-                    @endforeach
-                </tbody>
-            </table>
+                        @foreach ($cart as $item)
+                        <tr>
+                            <td>
+                                <img src="{{ asset("storage/".$item->product->picture) }}" alt="{{ $item->product->p_name }}" class="cart-img">
+                                {{ $item->product->p_name }}
+                            </td>
+                            <td>
+                                <input type="number" name="mass[]" value="{{ $item->cart_mass }}" min="100" step="50" class="mass-input" data-price="{{ $item->product->price }}">
+                                <input type="hidden" name="product_id[]" value="{{ $item->product->id }}">
+                            </td>
+                            <td>{{ number_format($item->product->price, 2) }}</td>
+                            <td class="total-price">{{ number_format($item->cart_price*($item->cart_mass/100), 2) }}</td>
+                            <td>
+                                <a href="{{ route('deletecart',$item->id) }}" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Remove</a>
+                            </td>
+                        </tr>
+                        @php $total += $item->cart_price*($item->cart_mass/100); @endphp
+                        @endforeach
+                    </tbody>
+                </table>
 
-            <!-- Pick-up or Delivery selection -->
-            <div class="delivery-options mb-4">
-                <label for="delivery-type">Select Pick-up or Delivery:</label>
-                <div>
-                    <input type="radio" name="delivery_type" id="pick-up" value="pick-up" checked>
-                    <label for="pick-up">Pick-up</label>
-                    <input type="radio" name="delivery_type" id="delivery" value="delivery" style="margin-left: 20px;">
-                    <label for="delivery">Delivery</label>
+                <!-- Pick-up or Delivery selection -->
+                <div class="delivery-options mb-4">
+                    <label for="delivery-type">Select Pick-up or Delivery:</label>
+                    <div>
+                        <input type="radio" name="delivery_type" id="pick-up" value="pick-up" checked>
+                        <label for="pick-up">Pick-up</label>
+                        <input type="radio" name="delivery_type" id="delivery" value="delivery" style="margin-left: 20px;">
+                        <label for="delivery">Delivery</label>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Address selection for Delivery -->
-            <div class="address-selection mb-4" style="display: none;">
-                <label for="address">Select Your Address:</label>
-                <select class="form-control" id="address" name="address">
-                    @foreach ($addresses as $address)
-                        <option value="{{ $address->address1 }},{{ $address->address2 }},{{ $address->poscode }},{{ $address->city }},{{ $address->state }}">{{ $address->description }}</option>
-                    @endforeach
-                </select>
-            </div>
+                <!-- Address selection for Delivery -->
+                <div class="address-selection mb-4" style="display: none;">
+                    <label for="address">Select Your Address:</label>
+                    <select class="form-control" id="address" name="address">
+                        @foreach ($addresses as $address)
+                            <option value="{{ $address->address1 }},{{ $address->address2 }},{{ $address->poscode }},{{ $address->city }},{{ $address->state }}">{{ $address->description }}</option>
+                        @endforeach
+                    </select>
+                </div>
 
-            <div class="total-section">
-                <h4 class="text-right">Total: RM<span id="grand-total">{{ number_format($total, 2) }}</span></h4>
-                <button type="submit" class="btn btn-primary btn-lg float-right">
-                    <i class="fas fa-credit-card"></i> Checkout
-                </button>
-            </div>
+                <div class="total-section">
+                    <h4 class="text-right">Total: RM<span id="grand-total">{{ number_format($total, 2) }}</span></h4>
+                    <button type="submit" class="btn btn-primary btn-lg float-right">
+                        <i class="fas fa-credit-card"></i> Checkout
+                    </button>
+                </div>
+            </form>
         @endif
     </div>
 </body>
@@ -122,7 +121,7 @@
         margin-right: 10px;
     }
     .total-section {
-        margin-top: 20px;
+        margin-top: 20px;      
     }
     .btn-success {
         background-color: #28a745;
