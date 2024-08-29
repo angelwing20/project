@@ -10,7 +10,7 @@
     <form action="post">
         <h1>Welcome to VegeTable Shop!</h1>
         <p>This is your verify code: {{ $user->verify_code }}</p>
-        <a href="{{ route('verifypage') }}">Click Here To Active Your Account</a>
+        <a href="{{ route('verifypage_code',$user->verify_code) }}">Click Here Direct Go To Verify</a>
     </form>
 </body>
 </html>

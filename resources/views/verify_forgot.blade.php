@@ -53,12 +53,17 @@
                             @csrf
                             <div class="form-group">
                                 <label for="verify_code">Verify Code:</label>
-                                <input type="text" class="form-control" name="verify_code" id="verify_code">
+                                <input type="text" class="form-control" name="verify_code" id="verify_code" value="{{ $code ?? '' }}">
                                 @error('verify_code')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                             <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                        </form>
+                        <br>
+                        <form action="{{ route('resend',$email->email) }}" method="post">
+                            @csrf
+                            <button type="submit" class="btn btn-primary btn-block">Resend</button>
                         </form>
                     </div>
                 </div>

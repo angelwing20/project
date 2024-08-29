@@ -130,7 +130,7 @@ class UserController extends Controller
         $data=$condition->get();
         if ($data[0]->verify_code==$request['verify_code']) {
             if (Auth::user()->verify_time!==Null) {
-                return redirect()->route('main');
+                return redirect()->route('loginpage');
             }
             $condition->update(array('verify_time'=>'1'));
             return redirect()->route('loginpage');
@@ -173,6 +173,14 @@ class UserController extends Controller
             return redirect()->route('forgotpwd',['email'=>$email]);
         }
         return back()->with('message','Wrong Verify Code!');
+    }
+
+    public function resend($email){
+        $condition=User::where('email',$email)->first();
+        $code=rand(100000,999999);
+        $condition->update(['verify_code' => $code]);
+        Mail::to($email)->send(new OtpMail($condition));
+        return redirect()->route('verify_forgot',$email)->with('message','Resend Success!');
     }
 
     public function reset_pwd(Request $request,$email){
@@ -239,19 +247,5 @@ class UserController extends Controller
     public function deleteaddress(Request $request,addresses $id){
         $id->delete();
         return back()->with('message','Delete Address Success!');
-    }
-
-    public function add(Request $request){
-        $add=$request->validate([
-            'p_name'=>['required','min:3'],
-            'picture'=>'required',
-            'mass'=>['required','min:1'],
-            'price'=>'required'
-        ]);
-        if ($request->hasFile("picture")) {
-            $add['picture']=$request->file("picture")->store("logos","public");
-        }
-        products::create($add);
-        return back()->with('message','Add Product Success!');
     }
 }

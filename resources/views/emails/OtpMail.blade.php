@@ -10,7 +10,7 @@
     <form action="post">
         <h1>Important Message!</h1>
         <p>This is your verify code: {{ $user->verify_code }}</p>
-        <a href="{{ route('verify_forgot',$user->email) }}">Click Here to Verify</a>
+        <a href="{{ route('verify_forgot_code',['email'=>$user->email,'code'=>$user->verify_code]) }}">Click Here Direct Go To Verify</a>
     </form>
 </body>
 </html>

@@ -43,6 +43,11 @@ class ViewController extends Controller
     public function verifypage(){
         return view('verify');
     }
+    public function verifypage_code($code){
+        return view('verify',[
+            'code'=>$code
+        ]);
+    }
     public function loginpage(){
         return view('login');
     }
@@ -51,7 +56,13 @@ class ViewController extends Controller
     }
     public function verify_forgot($email){
         return view('verify_forgot',[
-            'email'=>User::where('email',$email)->first()
+            'email'=>User::where('email',$email)->first(),
+        ]);
+    }
+    public function verify_forgot_code($email,$code){
+        return view('verify_forgot',[
+            'email'=>User::where('email',$email)->first(),
+            'code'=>$code
         ]);
     }
     public function forgotpwd($email){
@@ -74,9 +85,5 @@ class ViewController extends Controller
         return view('edit_address',[
             'data'=>addresses::find($id)
         ]);
-    }
-
-    public function addpage(){
-        return view('add');
     }
 }
