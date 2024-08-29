@@ -17,44 +17,36 @@ use Illuminate\Validation\Rule;
 class UserController extends Controller
 {
     public function addcart(Request $request, products $id){
-        if (Auth::user()!==null) {
-            $cart = carts::where('user_id', Auth::user()->id)->where('product_id', $id->id)->exists();
-            if ($cart) {
-                return redirect()->route('cart')->with('message', 'Already Have In Cart!');
-            }else{
-                carts::create([
-                    'user_id' => Auth::user()->id,
-                    'product_id' => $id->id,
-                    'cart_mass' => $id->mass,
-                    'cart_price' => $id->price
-                ]);
-                return back()->with('message', 'Add Cart Success!');
-            }
+        $cart = carts::where('user_id', Auth::user()->id)->where('product_id', $id->id)->exists();
+        if ($cart) {
+            return redirect()->route('cart')->with('message', 'Already Have In Cart!');
         }else{
-            return redirect()->route('loginpage');
-        } 
+            carts::create([
+                'user_id' => Auth::user()->id,
+                'product_id' => $id->id,
+                'cart_mass' => $id->mass,
+                'cart_price' => $id->price
+            ]);
+            return back()->with('message', 'Add Cart Success!');
+        }
     }
     public function addcart_view(Request $request,products $id){
-        if (Auth::user()!==null) {
-            $cart = carts::where('user_id', Auth::user()->id)->where('product_id', $id->id)->exists();
-            if ($cart) {
-                return back()->with('message', 'Already Have In Cart!');
-            }else{
-                carts::create([
-                    'user_id' => Auth::user()->id,
-                    'product_id' => $id->id,
-                    'cart_mass' => $request->mass,
-                    'cart_price' => $id->price
-                ]);
-                return back()->with('message', 'Add Cart Success!');
-            }
+        $cart = carts::where('user_id', Auth::user()->id)->where('product_id', $id->id)->exists();
+        if ($cart) {
+            return back()->with('message', 'Already Have In Cart!');
         }else{
-            return redirect()->route('loginpage');
-        } 
+            carts::create([
+                'user_id' => Auth::user()->id,
+                'product_id' => $id->id,
+                'cart_mass' => $request->mass,
+                'cart_price' => $id->price
+            ]);
+            return back()->with('message', 'Add Cart Success!');
+        }
     }
 
     public function checkout(Request $request){
-    
+
         // 获取提交的所有商品ID和对应的质量（mass）
         $product_ids = $request->input('product_id');
         $masses = $request->input('mass');
@@ -108,8 +100,6 @@ class UserController extends Controller
         // 返回成功的视图或重定向
         return redirect()->route('main')->with('message', 'Order placed successfully!');
     }
-
-
 
     public function register(Request $request){
         $users=$request->validate([
@@ -176,10 +166,10 @@ class UserController extends Controller
     }
 
     public function resend($email){
-        $condition=User::where('email',$email)->first();
+        $resend=User::where('email',$email)->first();
         $code=rand(100000,999999);
-        $condition->update(['verify_code' => $code]);
-        Mail::to($email)->send(new OtpMail($condition));
+        $resend->update(['verify_code' => $code]);
+        Mail::to($email)->send(new OtpMail($resend));
         return redirect()->route('verify_forgot',$email)->with('message','Resend Success!');
     }
 
