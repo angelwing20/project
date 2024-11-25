@@ -3,7 +3,7 @@
 <head>
     <title>Shopping Cart</title>
 </head>
-<body>
+<body style="background-color: #f8f9fa;">
     <div class="container">
         <h2 class="text-center mb-4"><i class="fas fa-shopping-cart"></i> Shopping Cart</h2>
         @if($cart->isEmpty())
@@ -22,15 +22,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                    @php $total = 0; @endphp
+                        @php $total = 0; @endphp
                         @foreach ($cart as $item)
                         <tr>
                             <td>
+                                <a href="{{ route('view_detail',$item->product->id) }}">
                                 <img src="{{ asset("storage/".$item->product->picture) }}" alt="{{ $item->product->p_name }}" class="cart-img">
-                                {{ $item->product->p_name }}
+                                {{ $item->product->p_name }}</a>
                             </td>
                             <td>
-                                <input type="number" name="mass[]" value="{{ $item->cart_mass }}" min="100" step="50" class="mass-input" data-price="{{ $item->product->price }}">
+                                <input type="number" name="mass[]" value="100" min="100" max="{{ $item->product->mass }}" step="50" class="mass-input" data-price="{{ $item->product->price }}">
                                 <input type="hidden" name="product_id[]" value="{{ $item->product->id }}">
                             </td>
                             <td>{{ number_format($item->product->price, 2) }}</td>
@@ -44,7 +45,6 @@
                     </tbody>
                 </table>
 
-                <!-- Pick-up or Delivery selection -->
                 <div class="delivery-options mb-4">
                     <label for="delivery-type">Select Pick-up or Delivery:</label>
                     <div>
@@ -55,7 +55,6 @@
                     </div>
                 </div>
 
-                <!-- Address selection for Delivery -->
                 <div class="address-selection mb-4" style="display: none;">
                     <label for="address">Select Your Address:</label>
                     <select class="form-control" id="address" name="address">
@@ -85,7 +84,6 @@
 
             this.closest('tr').querySelector('.total-price').textContent = newTotalPrice.toFixed(2);
 
-            // Recalculate the grand total
             let grandTotal = 0;
             document.querySelectorAll('.total-price').forEach(function(priceElement) {
                 grandTotal += parseFloat(priceElement.textContent);
@@ -94,7 +92,6 @@
         });
     });
 
-    // Toggle address selection visibility based on delivery type
     document.querySelectorAll('input[name="delivery_type"]').forEach(function(radio) {
         radio.addEventListener('change', function() {
             const addressSelection = document.querySelector('.address-selection');

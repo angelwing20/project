@@ -11,6 +11,10 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    public function cart() {
+        return $this->hasMany(carts::class, 'user_id');
+    }
+
     /**
      * The attributes that are mass assignable.
      *
@@ -19,6 +23,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'gender',
         'password',
         'verify_code',
         'verify_time'

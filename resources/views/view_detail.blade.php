@@ -27,6 +27,7 @@
         .product-img {
             width: 100%;
             height: auto;
+            max-width: 200px;
             max-height: 350px;
             object-fit: cover;
             border-radius: 10px;
@@ -34,7 +35,7 @@
         }
 
         .product-name {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: bold;
             color: #333;
             text-align: center;
@@ -43,9 +44,9 @@
 
         .form-group {
             display: flex;
-            justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
+            justify-content: center;
         }
 
         .form-group label {
@@ -94,12 +95,17 @@
     <form action="{{ route('addcart_view',$data->id) }}" method="post">
         @csrf
         <div class="container">
-            <img src="{{ asset("storage/".$data->picture) }}" alt="{{ $data->p_name }}" class="product-img">
-            <p class="product-name">{{ $data->p_name }}</p>
+            <div style="display: flex;flex-direction:column;align-items:center;">
+               <img src="{{ asset("storage/".$data->picture) }}" alt="{{ $data->p_name }}" class="product-img">
+                <p class="product-name">{{ $data->p_name }}</p> 
+                <p>{{ $data->description }}</p>
+                <label><i><b>Stock: {{ $data->mass }} g</b></i></label>
+            </div>
+            
 
             <div class="form-group">
                 <label for="mass">Mass (g):</label>
-                <input type="number" name="mass" id="mass" value="100" min="100" step="50" oninput="updateTotalPrice({{ $data->price }})">
+                <input type="number" name="mass" id="mass" value="100" min="100" max="{{ $data->mass }}" step="50" oninput="updateTotalPrice({{ $data->price }})">
             </div>
 
             <div class="total-price">
@@ -107,17 +113,18 @@
                 <p id="total-price">RM{{ number_format($data->price, 2) }}</p>
             </div>
 
-            <button type="submit" class="cart-btn">Add To Cart</button>
+            <button type="submit" class="cart-btn" {{ $data->mass <= 0 ? 'disabled style=opacity:0.5' : '' }}>Add To Cart</button>
         </div>
     </form>
-    
+    <div>
+        <p style="display: flex;justify-content:center;margin-bottom:0px;padding-top:10px;">Release Time:   {{ $data->created_at }}</p>
+    </div>
 
     <script>
         function updateTotalPrice(perprice) {
             const massInput = document.getElementById('mass');
             let mass = parseFloat(massInput.value);
 
-            // 确保质量至少为 100g 且为 50g 的倍数
             if (isNaN(mass) || mass < 100) {
                 mass = 100;
                 massInput.value = mass;
@@ -126,7 +133,6 @@
                 massInput.value = mass;
             }
 
-            // 计算总价格，将质量转换为千克
             const totalPrice = perprice * (mass / 100);
             document.getElementById('total-price').textContent = `RM${totalPrice.toFixed(2)}`;
         }

@@ -7,9 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-use function PHPUnit\Framework\isNull;
-
-class checkuser
+class checkadmin
 {
     /**
      * Handle an incoming request.
@@ -18,14 +16,10 @@ class checkuser
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::guard('web')->check()) {
-            return redirect()->route('loginpage');
-        }else{
-            if (is_null(Auth::guard('web')->user()->verify_time)) {
-                return redirect()->route('verifypage');
-            }
-        };
-
+        if (!Auth::guard('admin')->check()) {
+            return redirect()->route('admin_loginpage');
+        }
+        
         return $next($request);
     }
 }

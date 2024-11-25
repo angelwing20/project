@@ -46,7 +46,7 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
-                        <h1>Please Check Your Email To Get Verify Code</h1>
+                        <h2>Please Check Your Email To Get Verify Code Active Account</h1>
                     </div>
                     <div class="card-body">
                         <form action="{{ route('verify') }}" method="POST">

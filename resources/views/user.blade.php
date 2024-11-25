@@ -35,10 +35,11 @@
                 <div class="form-group row">
                     <label for="gender" class="col-sm-2 col-form-label"><i class="fas fa-venus-mars"></i> Gender:</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" name="gender" id="gender" value="{{ auth()->user()->gender }}" placeholder="Male or Female" readonly>
-                        @error('gender')
-                            <div class="alert alert-danger mt-2">{{ $message }}</div>
-                        @enderror
+                        <select name="gender" id="gender" class="form-control" disabled>
+                            <option value="{{ auth()->user()->gender }}" selected disabled><b>Current:    {{ auth()->user()->gender ?? '' }}</b></option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -157,17 +158,18 @@
         const editBtn = document.getElementById('edit-btn');
         const successBtn = document.getElementById('success-btn');
         const formInputs = document.querySelectorAll('#user-form .form-control');
+        const genderSelect = document.getElementById('gender');
+        const userForm = document.getElementById('user-form');
 
         editBtn.addEventListener('click', function() {
             formInputs.forEach(input => input.removeAttribute('readonly'));
+            genderSelect.removeAttribute('disabled');
             editBtn.classList.add('d-none');
             successBtn.classList.remove('d-none');
         });
 
-        successBtn.addEventListener('click', function() {
-            formInputs.forEach(input => input.setAttribute('readonly', true));
-            editBtn.classList.remove('d-none');
-            successBtn.classList.add('d-none');
+        userForm.addEventListener('submit', function() {
+            genderSelect.removeAttribute('disabled');
         });
     });
 </script>

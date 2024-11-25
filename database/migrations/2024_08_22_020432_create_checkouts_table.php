@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('price');
             $table->enum('delivery_type',['pick-up','delivery']);
             $table->string('address');
-            $table->enum('status',['on-the-way','success-order']);
+            $table->enum('status',['pending','on-the-way','success-order','cancelled']);
             $table->timestamps();
         });
     }

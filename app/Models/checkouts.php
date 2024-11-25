@@ -10,4 +10,8 @@ class checkouts extends Model
     use HasFactory;
 
     protected $fillable=['order_code','user_id','product_id','mass','price','delivery_type','address','price','status'];
+
+    public function product() {
+        return $this->belongsTo(products::class, 'product_id');
+    }
 }

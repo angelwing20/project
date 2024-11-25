@@ -59,33 +59,33 @@
         .navbar-nav .nav-item {
             display: flex;
             align-items: center;
-            justify-content: center; /* Center content horizontally */
+            justify-content: center;
         }
         .navbar .form-inline {
             display: flex;
             align-items: center;
-            justify-content: center; /* Center form content horizontally */
-            margin: 0; /* Remove default margins */
+            justify-content: center;
+            margin: 0; 
         }
         .navbar .form-inline .btn-link.logout-btn {
-            margin: 0; /* Remove default margins */
+            margin: 0; 
             display: flex;
             align-items: center;
-            justify-content: center; /* Center button content horizontally */
+            justify-content: center; 
         }
         .navbar .nav-link.user-name {
             display: flex;
             align-items: center;
             color: #fff;
             font-weight: bold;
-            padding: 8px 15px; /* Adjust padding to match button */
+            padding: 8px 15px;
             border-radius: 5px;
             background-color: #333;
             transition: background-color 0.3s, color 0.3s;
-            text-decoration: none; /* Remove underline */
+            text-decoration: none; 
         }
         .navbar .nav-link.user-name i {
-            margin-right: 8px; /* Space between icon and text */
+            margin-right: 8px; 
         }
         .navbar .nav-link.user-name:hover {
             background-color: #555;
@@ -93,27 +93,27 @@
         }
         .navbar .btn-link.logout-btn {
             color: #fff;
-            background-color: #dc3545; /* Red background for logout */
+            background-color: #dc3545; 
             border: none;
             border-radius: 5px;
-            padding: 8px 15px; /* Match padding of user name link */
+            padding: 8px 15px; 
             font-weight: bold;
             transition: background-color 0.3s, color 0.3s, border 0.3s;
-            text-decoration: none; /* Remove underline */
+            text-decoration: none; 
         }
         .navbar .btn-link.logout-btn i {
-            margin-right: 8px; /* Space between icon and text */
+            margin-right: 8px; 
         }
         .navbar .btn-link.logout-btn:hover {
-            background-color: #c82333; /* Darker red on hover */
+            background-color: #c82333; 
             color: #fff;
         }
         .navbar .btn-link.logout-btn:focus {
-            box-shadow: none; /* Remove focus outline */
+            box-shadow: none; 
         }
         .navbar .nav-item.cart {
             position: relative;
-            margin-right: 20px; /* 增加购物车与用户名之间的距离 */
+            margin-right: 20px; 
         }
         .navbar .nav-item.cart .cart-icon {
             color: #fff;
@@ -129,22 +129,42 @@
             padding: 2px 6px;
             font-size: 0.75rem;
         }
+        .navbar .nav-item.purchase-list {
+            margin-right: 15px; 
+        }
+        .navbar .nav-item.purchase-list .purchase-icon {
+            color: #fff;
+            font-size: 1.5rem; 
+        }
     </style>
 </head>
-<body>
+<body style="font-family: 'Arial', sans-serif;">
     <nav class="navbar navbar-expand-lg navbar-light">
         <a class="navbar-brand" href="{{ route('main') }}">VegetableSHOP</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav ml-auto" style="display: flex;justify-content: center;flex-direction: row;align-items: center;margin:10px;">
                 @auth
                     <li class="nav-item cart">
-                        <a href="{{ route('cart') }}" class="nav-link">
-                            <i class="fas fa-cart-arrow-down cart-icon"></i> 
+                        <a href="{{ route('cart') }}" class="nav-link position-relative">
+                            <i class="fas fa-cart-arrow-down cart-icon"></i>
+
+                            @if (auth()->check() && auth()->user()->cart->count() > 0)
+                                <span class="badge badge-pill badge-danger position-absolute translate-middle" 
+                                    style="top: 20%; right: 10%; transform: translate(50%, -50%);">
+                                    {{ auth()->user()->cart->count() }}
+                                </span>
+                            @endif
+                            
                         </a>
-                    </li>          
+                    </li>      
+                    <li class="nav-item purchase-list">
+                        <a href="{{ route('purchase_list') }}" class="nav-link">
+                            <i class="fas fa-clipboard-list purchase-icon"></i>
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a href="{{ route('user') }}" class="btn nav-link user-name"><i class="fas fa-user"></i>{{ auth()->user()->name }}</a>
                     </li>
@@ -170,7 +190,6 @@
         @yield('content')
     </div>
     
-    <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

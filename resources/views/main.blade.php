@@ -1,10 +1,10 @@
 @if (session()->has('message'))
     <script>
-        window.alert("{{ session('message') }}")
+        window.alert("{{ session('message') }}");
     </script>
 @endif
 @extends('header')
-@section('content')  
+@section('content')
 <head>
     <title>VegetableSHOP</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
@@ -18,13 +18,13 @@
                 <a href="{{ route('view_detail', $product->id) }}">
                     <img src="{{ asset("storage/".$product->picture) }}" alt="{{ $product->p_name }}" class="product-img">
                     <h5>{{ $product->p_name }}</h5>
-                    <p>{{ $product->mass }}g</p>
+                    <p>100 g</p>
                     <p>RM{{ $product->price }}</p>
-                    <p>{{ $product->created_at }}</p>
+                    <p><b>Stock: {{ $product->mass }} g</b></p>
                 </a>
                 <form action="{{ route('addcart', $product->id) }}" method="post">
                     @csrf
-                    <button class="btn btn-cart" type="submit">
+                    <button class="btn btn-cart" type="submit" {{ $product->mass <= 0 ? 'disabled style=opacity:0.5' : '' }}>
                         <i class="fas fa-cart-plus"></i> Add to Cart
                     </button>
                 </form>
@@ -32,41 +32,47 @@
             @endforeach
         </div>
 
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Vegetable</th>
-                    <th>Per Mass (g)</th>
-                    <th>Per Price (RM)</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($data2 as $item)
-                <tr>
-                    <td>
-                        <a href="{{ route('view_detail', $item->id) }}">
-                            <img src="{{ asset("storage/".$item->picture) }}" alt="{{ $item->p_name }}" class="product-img">
-                        </a>
-                        {{ $item->p_name }}
-                    </td>
-                    <td>{{ $item->mass }}</td>
-                    <td>{{ $item->price }}</td>
-                    <td>
-                        <a href="{{ route('view_detail', $item->id) }}" class="btn btn-primary">
-                            <i class="fas fa-eye"></i> View Detail
-                        </a><br>
-                        <form action="{{ route('addcart', $item->id) }}" method="post" style="margin-top: 5px;">
-                            @csrf
-                            <button class="btn btn-cart" type="submit">
-                                <i class="fas fa-cart-plus"></i> Add to Cart
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Vegetable</th>
+                        <th>Stock (g)</th>
+                        <th>Per Price (RM)</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($data2 as $item)
+                    <tr>
+                        <td>
+                            <a href="{{ route('view_detail', $item->id) }}">
+                                <img src="{{ asset("storage/".$item->picture) }}" alt="{{ $item->p_name }}" class="product-img">
+                            </a>
+                            <div style="display: flex; justify-content: space-between;">
+                                <p><b>{{ $item->p_name }}</b></p>
+                                
+                            </div> <p>From {{ $item->created_at }}</p>
+                        </td>
+                        <td>{{ $item->mass }} g</td>
+                        <td>RM {{ $item->price }}</td>
+                        <td>
+                            <a href="{{ route('view_detail', $item->id) }}" class="btn btn-primary">
+                                <i class="fas fa-eye"></i> View Detail
+                            </a><br>
+                            <form action="{{ route('addcart', $item->id) }}" method="post" style="margin-top: 5px;">
+                                @csrf
+                                <button class="btn btn-cart" type="submit" {{ $item->mass <= 0 ? 'disabled style=opacity:0.5' : '' }}>
+                                    <i class="fas fa-cart-plus"></i> Add to Cart
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+
         <div class="d-flex justify-content-center">
             {{ $data2->links('pagination::bootstrap-4') }}
         </div>        
@@ -78,14 +84,12 @@
     }
     .latest-products {
         display: flex;
-        gap: 36px;
         border-bottom: 1px solid #ced4da;
         padding-bottom: 20px;
         margin-bottom: 30px;
     }
     .product-item {
         width: 150px;
-        height: 240px; /* Increased height to accommodate button */
         border: 1px solid #ced4da;
         border-radius: 5px;
         padding: 10px;
@@ -125,14 +129,18 @@
         transition: background-color 0.3s;
     }
     .btn-cart i {
-        margin-right: 5px; /* Space between icon and text */
+        margin-right: 5px;
     }
     .btn-cart:hover {
         background-color: #0056b3;
+        color: white;
     }
 
-    /* Table Styles */
-    table {
+    .table-responsive {
+        overflow-x: auto;
+        margin-top: 20px;
+    }
+    .table {
         width: 100%;
         border-collapse: collapse;
         background-color: #fff;
@@ -165,6 +173,40 @@
     }
     .btn-primary:hover {
         background-color: #333;
+    }
+
+    @media (max-width: 768px) {
+        .table {
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            padding: 10px;
+        }
+
+        th:nth-child(3), td:nth-child(3) {
+            display: none;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .table {
+            font-size: 0.8rem;
+        }
+
+        th, td {
+            padding: 8px;
+        }
+
+        .product-img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+        }
+
+        th:nth-child(2), td:nth-child(2) {
+            display: none;
+        }
     }
 </style>
 @endsection

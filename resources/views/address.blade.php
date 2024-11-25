@@ -103,9 +103,6 @@
     tr:hover {
         background-color: #f2f2f2;
     }
-    .btn {
-        margin: 5px;
-    }
     .btn-primary {
         background-color: #000;
         border: none;
